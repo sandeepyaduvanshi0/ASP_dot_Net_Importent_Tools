@@ -1,0 +1,27 @@
+//===CodeFirstApproach----
+
+//=====steps----
+
+1. Add Connection String insert in appseting.json file
+"ConnectionStrings": {
+    "dbcs": "Server=SANDEEP\\SQLEXPRESS;Database=CodeFirstDb;Trusted_Connection=True;"
+  },
+
+2. add registring in program.cs file.
+
+//program.cs 
+
+var provider=builder.Services.BuildServiceProvider();
+var config=provider.GetRequiredService<IConfiguration>();
+builder.Services.AddDbContext<StudentDbContext>(item => item.UseSqlServer(config.GetConnectionString("dbcs")));
+
+3. Steps Add migration this  is code frist approach
+
+a.  add-migration migration_name
+b. update-database
+
+
+Note : if give some time give error the use 
+"ConnectionStrings": {
+  "cnst": "Server=SANDEEP\\SQLEXPRESS;Database=CrudApplications;Trusted_Connection=True;TrustServerCertificate=True;"
+},

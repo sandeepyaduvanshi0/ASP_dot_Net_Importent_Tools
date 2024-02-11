@@ -1,0 +1,20 @@
+
+//==Connection String In appsetting.json file
+
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "dbcs": "server=SANDEEP\\SQLEXPRESS;Initial Catalog=crudop;Integrated Security=true;TrustServerCertificate=True;"
+  }
+
+
+//===Registring in program .cs file  
+
+// Add services to the container.
+
+//builder.Services.AddControllersWithViews();
+
+//(This is is main Line )
+builder.Services.AddDbContext<myContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("dbcs")));
+
+
+//var app = builder.Build();

@@ -2,6 +2,16 @@
 
 
 Controller==Code
+// DbContext Object And IwebEnv Object
+myContext db;
+IWebHostEnvironment hostEnvironment;
+public HomeController(myContext db ,IWebHostEnvironment env)
+{
+    this.db = db;
+    this.hostEnvironment = env;
+}
+
+
 
  [HttpPost]
  public IActionResult Create(ImageViewModel img)

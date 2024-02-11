@@ -1,0 +1,80 @@
+//===For Image 
+
+
+Controller==Code
+
+ [HttpPost]
+ public IActionResult Create(ImageViewModel img)
+ {
+     if(ModelState.IsValid)
+     {
+         string fileName = Path.GetFileNameWithoutExtension(img.photo.FileName);
+         string extension = Path.GetExtension(img.photo.FileName);
+         if (img.photo != null)
+         {
+
+             //  int lenght = postedFile.ContentLength;
+             string uploadFold = Path.Combine(hostEnvironment.WebRootPath, "images");
+             fileName = Guid.NewGuid().ToString() + fileName+extension;
+             img.photo.CopyTo(new FileStream(Path.Combine(uploadFold, fileName), FileMode.Create));
+         }
+         Image image = new Image
+         {
+             Name = img.Name,
+             price = img.price,
+             ImagePath = fileName 
+         };
+         db.Images.Add(image);
+         db.SaveChanges();
+         ViewBag.Message = "Data Save";
+         return RedirectToAction("Index");
+     }
+     return View();
+ }
+
+
+//===Iske  liye humko do model banana pada hai ek main model aur ek ViewModel
+
+
+//====main model is
+
+ public class Image
+ {
+     public int id { get; set; }
+     public string Name { get; set; }
+     public decimal price { get; set; }
+     public string ImagePath { get; set; }
+ }
+
+
+//===  View Model
+
+
+
+public class ImageViewModel
+{
+    public int id { get; set; }
+    public string Name { get; set; }
+    public decimal price { get; set; }
+    public IFormFile photo { get; set; }
+}
+
+//==Connection String In appsetting.json file
+
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "dbcs": "server=SANDEEP\\SQLEXPRESS;Initial Catalog=crudop;Integrated Security=true;TrustServerCertificate=True;"
+  }
+
+
+//===Registring in program .cs file  
+
+// Add services to the container.
+
+//builder.Services.AddControllersWithViews();
+
+//(This is is main Line )
+builder.Services.AddDbContext<myContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("dbcs")));
+
+
+//var app = builder.Build();

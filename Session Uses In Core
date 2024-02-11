@@ -1,0 +1,24 @@
+this steps are use whenver session variable is created.
+
+
+1. Add below line before build in program.cs
+
+builder.Services.AddSession();
+
+2. add below line after build in program.cs,
+
+app.UseSession();
+
+3. Implementing DB Frist
+a. install 3 packages in your ASP.NET CORE MVC application.
+b. Execute a command for scaffold DbContext.
+cmd>
+Scaffold-DbContext "server=ServerName;Database=databasName;trusted_connection=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+3. move ConnectionString From DbContet Class to appsettings.json file.
+
+4. Registering Connection String In Program.cs files.
+
+var provider=builder.Services.BuildServiceProvider();
+var config=provider.GetRequiredService<IConfiguration>();
+builder.Services.AddDbContext<CodeFirstDbContext>(item => item.UseSqlServer(config.GetConnectionString("dbcon")));

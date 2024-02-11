@@ -1,1 +1,25 @@
-F
+//Data Base First Approach
+
+Steps....
+1. Execute Scafffold Command for DbContext
+
+Scaffold-DbContext "server=SANDEEP\SQLEXPRESS;database=CodeFristDb;trusted_connection=true;"
+Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+2. Move connection string from DbContext class to appseting.json
+
+  "ConnectionStrings": {
+    "dbcs": "Server=SANDEEP\\SQLEXPRESS;Database=CodeFirstDb;Trusted_Connection=True;"
+  },
+
+3. Registring connection string in program.cs file.
+
+
+// Add services to the container.
+//builder.Services.AddControllersWithViews();
+//----this three line is importent
+var provider=builder.Services.BuildServiceProvider();
+var config=provider.GetRequiredService<IConfiguration>();
+builder.Services.AddDbContext<StudentDbContext>(item => item.UseSqlServer(config.GetConnectionString("dbcs")));
+//-----------
+//var app = builder.Build();
